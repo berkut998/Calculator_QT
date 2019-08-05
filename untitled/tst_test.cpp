@@ -16,6 +16,7 @@ private slots:
     void polska_test();
     void Parsing_test();
     void polska_calculating();
+    void calculation();
 
 };
 
@@ -28,6 +29,15 @@ Test::~Test()
 {
 
 }
+
+void Test::calculation()
+{
+    Calculate_Result calc;
+    QCOMPARE(calc.calculation("","5","²"),25);
+    QCOMPARE(calc.calculation("","25","√"),5);
+   // QCOMPARE(calc.calculation("500","%"),5);
+}
+
 
 void Test::Parsing_test()
 {

@@ -18,7 +18,13 @@ QString Calculate_Result::getResult()
     return QString::number(result);
 }
 
+bool Calculate_Result::Digit(QString a)
+{
+    if (a == "+" ||a == "-" ||a == "/" ||a == "²" ||a == "√" ||a == "*")
+        return false;
+    return true;
 
+}
 int Calculate_Result::get_oper()
 {
      return operation;
@@ -72,7 +78,7 @@ int Calculate_Result::Parsing_Priority (QString String_express)
         {
             return 2;
         }
-        else if (String_express == "^")
+        else if (String_express == "²")
         {
             return 3;
         }
@@ -121,20 +127,29 @@ QList<QString> Calculate_Result::polska_zapis (QList<QString> &List_express)
     return Polska_List;
 }
 
-void Calculate_Result::polska_calc(QList<QString> &List_express)
+void Calculate_Result::polska_calc(QList<QString> List_express)
 {
     QStack <QString> stack;
+    QString first = "";
+    QString second = "";
+    QString operation = "";
     for (int i = 0; i < List_express.length(); i++)
     {
-        if (!List_express.at(i).at(0).isDigit())
+        if (!Digit(List_express.at(i)))
         {
-            QString operation =List_express.at(i);
-            QString second =stack.top();
+            if (stack.isEmpty() == false)
+            {
+            operation = List_express.at(i);
+            second = stack.top();
             stack.pop();
-            QString first =stack.top();
+            if (stack.isEmpty() == false)
+            {
+            first =stack.top();
             stack.pop();
-            result = calculation(first,second,operation.at(0));
+            }
+            result = calculation(first,second,operation);
             stack.push(getResult());
+            }
         }
         else
         {
@@ -214,7 +229,7 @@ void Calculate_Result::select_term(QString term)
 
 
 
-double Calculate_Result::calculation(QString a, QString b, QChar operand)
+double Calculate_Result::calculation(QString a, QString b, QString operand)
 {
     if (operand == '+')
     {
@@ -231,6 +246,32 @@ double Calculate_Result::calculation(QString a, QString b, QChar operand)
     else if (operand == '/')
     {
         return a.toDouble() / b.toDouble();
+    }
+    else if (operand == '%')
+    {
+        return a.toDouble() / 100;
+    }
+    else if (operand == "²")
+    {
+        return  qPow(b.toDouble(),2);
+    }
+    else if (operand == "√")
+    {
+        return qSqrt(b.toDouble());
+    }
+    return 1;
+}
+
+//this good variantt but  need refactoring code to this work
+double Calculate_Result::calculation(QString a, QString operand)
+{
+    if (operand == "²")
+    {
+        return  qPow(a.toDouble(),2);
+    }
+    else if (operand == "√")
+    {
+        return qSqrt(a.toDouble());
     }
     return 1;
 }

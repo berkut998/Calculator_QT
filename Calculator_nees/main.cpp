@@ -9,8 +9,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     qmlRegisterType<Calculate_Result>("Calculate_Result.backend", 1, 0, "Calculate_Result");
-    qputenv("QT_QUICK_CONTROLS_STYLE", "material");
+    qputenv("QT_QUICK_CONTROLS_STYLE", "Material");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

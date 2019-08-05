@@ -5,6 +5,9 @@
 #include <QChar>
 #include <QList>
 #include <QStack>
+#include <QtCore/QtMath>
+
+
 class Calculate_Result:public QObject
 {
     Q_OBJECT
@@ -16,13 +19,15 @@ public:
     qreal add (qreal a, qreal b);
     void set_result (QString res);
     void select_term (QString term);
-    double calculation (QString a, QString b, QChar operand);
+    double calculation (QString a, QString b, QString operand);
+    double calculation (QString a,QString operand);
+    bool Digit (QString a);
     int get_oper ();
     void set_oper (int oper);
     QList<QString> infix_expressio (QString expressio);
     QList<QString> polska_zapis (QList<QString> &List_express);
     int Parsing_Priority (QString String_express);
-    void polska_calc (QList<QString> &List_express);
+    void polska_calc (QList<QString> List_express);
 signals:
     void ResultChanged();
     void operationChanged();
