@@ -6,9 +6,27 @@ import Calculate_Result.backend 1.0
 import QtQuick.Controls.Material 2.3
 import "exception_gui/GUI_Except.js" as Check
 
+/*
+    должен работать и и выглядить ка обычный калькулятор на 10 винде
+    1)все кнопки и боксы должны работать печатают все что нужно
+        кнопка смены знака не работает
+                нижний текст выводит коряво (выводит правильно подсчеты идут не так если нет знака операции то результат не возвращаеться)
+                проценты не работают
+    2)Описаны все исключения
+                добавить исключения на корень можно скока угодно но оно не считает пускай это и не прав с мат точки но так проще
+                сделать запрет на написание первого нуля без точки у числа типа 02541
+                кнопка 1/x не работает когда всего 1 символ +++ вроде работает
+    3)Считать должно правильно
+        написать больше авто тестов на разные случае в том числе и ноль при деление
+    4)Вычисления нужно поравить
+                результат не возвращаеться если нетвычислений
+        нет скобок
+                исключения для деления на 0
+        на переполнение переменных не реально переполнить ))
+            при вычислениях степень 1-e56 если нажать равно то оно и будет в боксе но оно не считает нормльно из за парсера дальше
 
 
-
+*/
 
 ApplicationWindow {
     id: applicationWindow
@@ -16,7 +34,7 @@ ApplicationWindow {
     width: 600
     height: 500
     title: qsTr("Calculator_like_win10")
-    minimumHeight: 250
+    minimumHeight: 350
     minimumWidth: 300
     Material.theme: Material.Dark
 
@@ -57,8 +75,22 @@ ApplicationWindow {
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
             onClicked:
-            {
+            {   /*
+                  Получить значение процентов r
+                  Получить занчение справа l
+                  l_1 = r/100 * l
+                  Вместо l=l_1
+                  */
                 Check.except_symbol_twice("%")
+                var l = Check.select_term()
+                element.text = element.text.substring(0,element.text.length - l.length)
+                l = l.substring(0,l.length - 1)
+                var operation = element.text.charAt(element.text.length-1)
+                element.text = element.text.substring(0,element.text.length - 1)
+                var r =  Check.select_term()
+                l = r / 100 * l
+                element.text += operation
+                element.text += l
             }
         }
 
@@ -80,14 +112,17 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked:
             {
-//                if(element.text.indexOf("+",element.text.length-1) < 0 && element.text.indexOf("-",element.text.length-1) < 0 &&
-//                        element.text.indexOf("*",element.text.length-1) < 0 && element.text.indexOf("/",element.text.length-1) < 0
-//                        && element.text.length > 0 && element.text.indexOf("²",element.text.length-1) < 0 && element.text.indexOf("√",element.text.length-1) < 0)
-//                {
-//
-//                }
+                if(element.text.indexOf("²",element.text.length-1) < 0 && element.text.indexOf("√",element.text.length-1) < 0)
+                {
+                    if (Check.isDigit(element.text.charAt(element.text.length-1)) )
+                    {
+                        element.text +="*√"
+                        return
+                    }
+                    element.text +="√"
+                }
                 //Check.except_symbol_twice()
-                element.text +="√"
+
             }
         }
 
@@ -243,7 +278,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 7
             }
         }
@@ -264,7 +300,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 8
 
             }
@@ -286,7 +323,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 9
             }
         }
@@ -328,7 +366,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 6
             }
         }
@@ -349,7 +388,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 5
             }
         }
@@ -371,7 +411,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 4
             }
         }
@@ -414,7 +455,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 3
             }
         }
@@ -435,7 +477,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
                 element.text += 2
             }
         }
@@ -456,7 +499,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if  (element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if  ( (s.charAt(0) !== '0' ||s.length > 1) &&  element.text.charAt(element.text.length-1) !== "²")
                 element.text += 1
             }
         }
@@ -519,7 +563,8 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if((element.text.charAt(0) != '0' || element.text.length > 1) && element.text.charAt(element.text.length-1) !== "²")
+                var s = Check.select_term()
+                if((s.charAt(0) !== '0' ||s.length > 1) && s.charAt(element.text.length-1) !== "²")
                     element.text += 0
             }
         }
@@ -622,8 +667,14 @@ ApplicationWindow {
                     maximumLength: 100
                     onTextChanged:
                     {
+                        var tmp = 0
+                        if (element.text.charAt(element.text.length-1) === "+" || element.text.charAt(element.text.length-1) === "-"
+                            || element.text.charAt(element.text.length-1) === "/" || element.text.charAt(element.text.length-1) === "*")
+                            return
                         calc.add = element.text.toString()
                         result_1.text = calc.add;
+                        if (element.text.length === 0)
+                            calc.result = 0.0
                     }
                     Rectangle   //make invisible accent in textfield i don`t know how remove him thiis is first methode
                     //which work
@@ -647,7 +698,17 @@ ApplicationWindow {
                     id: result_1
                     color: "#000000"
                     text: qsTr("Text")
-                    visible: true
+                    visible:
+                    {
+                        if (element.text === "")
+                        {
+                            false
+                        }
+                        else
+                        {
+                            true
+                        }
+                    }
                     anchors.bottomMargin: 5
                     anchors.rightMargin: 5
                     anchors.fill: parent

@@ -12,7 +12,7 @@ class Calculate_Result:public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString add READ getResult WRITE set_result NOTIFY ResultChanged)
-   // Q_PROPERTY(int qqq READ get_oper WRITE set_oper NOTIFY operationChanged)
+    Q_PROPERTY(double result READ get_r WRITE set_r NOTIFY operationChanged)
 public:
     explicit Calculate_Result(QObject *parent = nullptr);
     QString getResult();
@@ -22,8 +22,8 @@ public:
     double calculation (QString a, QString b, QString operand);
     double calculation (QString a,QString operand);
     bool Digit (QString a);
-    int get_oper ();
-    void set_oper (int oper);
+    double get_r ();
+    void set_r (double oper);
     QList<QString> infix_expressio (QString expressio);
     QList<QString> polska_zapis (QList<QString> &List_express);
     int Parsing_Priority (QString String_express);
@@ -32,7 +32,7 @@ signals:
     void ResultChanged();
     void operationChanged();
 private:
-    double result;
+    double result = NULL ;
     int operation ;
 };
 #endif // CALCULATE_RESULT_H

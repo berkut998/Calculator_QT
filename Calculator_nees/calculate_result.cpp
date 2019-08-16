@@ -25,14 +25,14 @@ bool Calculate_Result::Digit(QString a)
     return true;
 
 }
-int Calculate_Result::get_oper()
+double Calculate_Result::get_r()
 {
-     return operation;
+     return result;
 }
-void Calculate_Result::set_oper(int oper)
+void Calculate_Result::set_r(double r)
 {
     emit operationChanged();
-    operation = oper;
+    result = r;
 }
 //return list of items which are selected  numbers and  operations
 QList<QString> Calculate_Result::infix_expressio (QString expressio)
@@ -133,7 +133,7 @@ void Calculate_Result::polska_calc(QList<QString> List_express)
     QString first = "";
     QString second = "";
     QString operation = "";
-    for (int i = 0; i < List_express.length(); i++)
+    for (int i = 0; i <= List_express.length() - 1; i++)
     {
         if (!Digit(List_express.at(i)))
         {
@@ -153,11 +153,14 @@ void Calculate_Result::polska_calc(QList<QString> List_express)
         }
         else
         {
+//             if (Digit(List_express.at(i)))
+//                 {
+//                     set_r(List_express.at(i).toDouble());
+//                 }
              stack.push(List_express.at(i));
+
         }
-
     }
-
 }
 
 void Calculate_Result::select_term(QString term)
@@ -245,6 +248,8 @@ double Calculate_Result::calculation(QString a, QString b, QString operand)
     }
     else if (operand == '/')
     {
+        if (b == "0")
+            return 0;
         return a.toDouble() / b.toDouble();
     }
     else if (operand == '%')

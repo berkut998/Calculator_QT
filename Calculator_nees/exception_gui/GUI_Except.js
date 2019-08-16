@@ -24,9 +24,13 @@ function del_num ()
             {
                 break;
             }
+            if (element.text.charAt(element.text.length-1) === "√")
+            {
+                return element.text
+            }
             element.text = element.text.substring(0,element.text.length-1)
         }
-        return element.text
+        return
 }
 
 function ce()
@@ -73,6 +77,37 @@ function incl_dot ()
     return true
 }
 
+function select_term ()
+{
+    var s = ""
+    for(var i = element.text.length; i >= 0;i--)
+    {
+        if(element.text.charAt(i) ===  "+" || element.text.charAt(i) ===  "-" ||
+                element.text.charAt(i) ===  "*"  || element.text.charAt(i) ===  "/"
+                || element.text.charAt(i) ===  "√" || element.text.charAt(i) ===  "²" || i === 0)
+        {
+                if (isDigit(element.text.charAt(i)))
+                {
+                 s += element.text.charAt(i)
+                }
+                del_num ()
+//                if (element.text.charAt(i) ===  "√" && i > 1) //if √ not first symbol and we add new digit
+//                {
+//                    s += "*"
+//                }
+                s = reverse(s)
+                element.text += s
+
+            return s
+        }
+        else
+        {
+           s += element.text.charAt(i)
+        }
+    }
+}
+
+
 function select_numb ()
 {
     var s = ""
@@ -82,8 +117,7 @@ function select_numb ()
                 element.text.charAt(i) ===  "*"  || element.text.charAt(i) ===  "/" || i === 0)
         {
 
-            if (s !== "")
-            {
+
                 if (isDigit(element.text.charAt(i)))
                 {
                  s += element.text.charAt(i)
@@ -92,7 +126,7 @@ function select_numb ()
                 s = reverse(s)
                 element.text +="1/"
                 element.text += s
-            }
+
             return
         }
         else
