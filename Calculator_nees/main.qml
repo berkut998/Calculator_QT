@@ -6,6 +6,7 @@ import Calculate_Result.backend 1.0
 import QtQuick.Controls.Material 2.3
 import "exception_gui/GUI_Except.js" as Check
 
+
 /*
     должен работать и и выглядить ка обычный калькулятор на 10 винде
     1)все кнопки и боксы должны работать печатают все что нужно
@@ -27,7 +28,6 @@ import "exception_gui/GUI_Except.js" as Check
 
 
 */
-
 ApplicationWindow {
     id: applicationWindow
     visible: true
@@ -38,9 +38,8 @@ ApplicationWindow {
     minimumWidth: 300
     Material.theme: Material.Dark
 
-    Calculate_Result
-    {
-        id : calc
+    Calculate_Result {
+        id: calc
     }
 
     GridLayout {
@@ -74,8 +73,9 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
-            onClicked:
-            {   /*
+            onClicked: {
+
+                /*
                   Получить значение процентов r
                   Получить занчение справа l
                   l_1 = r/100 * l
@@ -83,19 +83,20 @@ ApplicationWindow {
                   */
                 Check.except_symbol_twice("%")
                 var l = Check.select_term()
-                element.text = element.text.substring(0,element.text.length - l.length)
-                l = l.substring(0,l.length - 1)
-                var operation = element.text.charAt(element.text.length-1)
-                element.text = element.text.substring(0,element.text.length - 1)
-                var r =  Check.select_term()
+                element.text = element.text.substring(
+                            0, element.text.length - l.length)
+                l = l.substring(0, l.length - 1)
+                var operation = element.text.charAt(element.text.length - 1)
+                element.text = element.text.substring(0,
+                                                      element.text.length - 1)
+                var r = Check.select_term()
                 l = r / 100 * l
                 element.text += operation
                 element.text += l
             }
         }
 
-        Button
-        {
+        Button {
             id: btn_Square
             text: qsTr("√")
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
@@ -110,24 +111,22 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-                if(element.text.indexOf("²",element.text.length-1) < 0 && element.text.indexOf("√",element.text.length-1) < 0)
-                {
-                    if (Check.isDigit(element.text.charAt(element.text.length-1)) )
-                    {
-                        element.text +="*√"
+            onClicked: {
+                if (element.text.indexOf("²", element.text.length - 1) < 0
+                        && element.text.indexOf("√",
+                                                element.text.length - 1) < 0) {
+                    if (Check.isDigit(element.text.charAt(
+                                          element.text.length - 1))) {
+                        element.text += "*√"
                         return
                     }
-                    element.text +="√"
+                    element.text += "√"
                 }
                 //Check.except_symbol_twice()
-
             }
         }
 
-        Button
-        {
+        Button {
             id: btn_Power
             text: qsTr(" Х²")
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
@@ -142,12 +141,11 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-                if(element.text.indexOf("+",element.text.length-1) < 0 && element.text.indexOf("-",element.text.length-1) < 0 &&
-                        element.text.indexOf("*",element.text.length-1) < 0 && element.text.indexOf("/",element.text.length-1) < 0
-                        && element.text.length > 0 && element.text.indexOf("²",element.text.length-1) < 0)
-                {
+            onClicked: {
+                if (element.text.indexOf("+", element.text.length - 1) < 0
+                        && element.text.indexOf("-", element.text.length - 1)
+                        < 0 && element.text.indexOf("*", element.text.length - 1) < 0 && element.text.indexOf("/", element.text.length - 1) < 0 && element.text.length
+                        > 0 && element.text.indexOf("²", element.text.length - 1) < 0) {
                     element.text += "²"
                 }
             }
@@ -168,9 +166,8 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-                Check.select_numb();
+            onClicked: {
+                Check.select_numb()
             }
         }
 
@@ -189,9 +186,8 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-               element.text = Check.ce()
+            onClicked: {
+                element.text = Check.ce()
             }
         }
 
@@ -210,8 +206,7 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
+            onClicked: {
                 element.text = ''
             }
         }
@@ -231,12 +226,9 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-                element.text = element.text.substring(0,element.text.length-1)
-
-
-
+            onClicked: {
+                element.text = element.text.substring(0,
+                                                      element.text.length - 1)
             }
         }
 
@@ -255,11 +247,9 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
+            onClicked: {
                 Check.except_symbol_twice("/")
             }
-
         }
 
         Button {
@@ -279,8 +269,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 7
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 7
             }
         }
 
@@ -301,9 +292,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 8
-
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 8
             }
         }
 
@@ -324,8 +315,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 9
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 9
             }
         }
 
@@ -344,8 +336,7 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
+            onClicked: {
                 Check.except_symbol_twice("*")
             }
         }
@@ -367,8 +358,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 6
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 6
             }
         }
 
@@ -389,11 +381,11 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 5
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 5
             }
         }
-
 
         Button {
             id: btn_4
@@ -412,8 +404,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 4
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 4
             }
         }
 
@@ -432,11 +425,9 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
+            onClicked: {
                 Check.except_symbol_twice("-")
             }
-
         }
 
         Button {
@@ -456,8 +447,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 3
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 3
             }
         }
 
@@ -478,8 +470,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) && element.text.charAt(element.text.length-1) !== "²")
-                element.text += 2
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 2
             }
         }
 
@@ -500,8 +493,9 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if  ( (s.charAt(0) !== '0' ||s.length > 1) &&  element.text.charAt(element.text.length-1) !== "²")
-                element.text += 1
+                if ((s.charAt(0) !== '0' || s.length > 1)
+                        && element.text.charAt(element.text.length - 1) !== "²")
+                    element.text += 1
             }
         }
 
@@ -520,9 +514,8 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
-                 Check.except_symbol_twice("+")
+            onClicked: {
+                Check.except_symbol_twice("+")
             }
         }
 
@@ -541,8 +534,7 @@ ApplicationWindow {
             Layout.preferredHeight: 50
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
-            onClicked:
-            {
+            onClicked: {
 
             }
         }
@@ -564,7 +556,8 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             onClicked: {
                 var s = Check.select_term()
-                if((s.charAt(0) !== '0' ||s.length > 1) && s.charAt(element.text.length-1) !== "²")
+                if ((s.charAt(0) !== '0' || s.length > 1) && s.charAt(
+                            element.text.length - 1) !== "²")
                     element.text += 0
             }
         }
@@ -585,26 +578,22 @@ ApplicationWindow {
             Layout.bottomMargin: 5
             Layout.preferredWidth: 100
             onClicked: {
-                if (element.text.length == 0)
-                {
+                if (element.text.length == 0) {
+                    element.text += "0."
+                } else if (Check.isDigit(element.text.charAt(
+                                             element.text.length - 1)) !== true
+                           && element.text.charAt(
+                               element.text.length - 1) !== "."
+                           && element.text.charAt(
+                               element.text.length - 1) !== "²") {
                     element.text += "0."
                 }
-                else
-                if(Check.isDigit(element.text.charAt(element.text.length-1)) !== true
-                        &&  element.text.charAt(element.text.length-1) !== "." && element.text.charAt(element.text.length-1) !== "²" )
-                {
-                    element.text += "0."
-                }
-                if (element.text.charAt(element.text.length-1) === "²")
-                {
+                if (element.text.charAt(element.text.length - 1) === "²") {
                     return
-                }
-                else
-               // Check.except_symbol_twice(".")
-                if(Check.incl_dot())
-                {
-                    element.text +="."
-                }
+                } else // Check.except_symbol_twice(".")
+                    if (Check.incl_dot()) {
+                        element.text += "."
+                    }
             }
         }
 
@@ -625,167 +614,89 @@ ApplicationWindow {
             Layout.preferredWidth: 100
             Material.background: Material.LightBlue
 
-            onClicked:
-            {
+            onClicked: {
+
                 //                      backend1.add = element.text.toString()
                 //                       element.text = backend1.add
-
                 calc.add = element.text.toString()
-                element.text = calc.add;
+                element.text = calc.add
             }
         }
     }
 
-
-            Column
+    Column {
+        id: column
+        height: 125
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        Material.accent: Material.background
+        TextField {
+            id: element
+            text: qsTr("")
+            anchors.fill: parent
+            readOnly: true
+            hoverEnabled: false
+            font.underline: false
+            font.weight: Font.Light
+            font.capitalization: Font.AllLowercase
+            padding: 5
+            rightPadding: 5
+            leftPadding: 0
+            font.pointSize: element.height * 0.05 + element.width * 0.05
+            placeholderText: "0"
+            //  placeholderTextColor: "#000000"
+            //  color: "#000000"
+            horizontalAlignment: Text.AlignLeft
+            maximumLength: 100
+            onTextChanged: {
+                var tmp = 0
+                if (element.text.charAt(
+                            element.text.length - 1) === "+" || element.text.charAt(
+                            element.text.length - 1) === "-" || element.text.charAt(
+                            element.text.length - 1) === "/" || element.text.charAt(
+                            element.text.length - 1) === "*")
+                    return
+                calc.add = element.text.toString()
+                result_1.text = calc.add
+                if (element.text.length === 0)
+                    calc.result = 0.0
+            }
+            Rectangle //make invisible accent in textfield i don`t know how remove him thiis is first methode
+            //which work
             {
-                id: column
-                height: 125
+                height: 5
                 anchors.right: parent.right
                 anchors.rightMargin: 0
                 anchors.left: parent.left
                 anchors.leftMargin: 0
-                Material.accent: Material.background
-                TextField
-                {
-                    id: element
-                    text: qsTr("")
-                    anchors.fill: parent
-                    readOnly: true
-                    hoverEnabled: false
-                    font.underline: false
-                    font.weight: Font.Light
-                    font.capitalization: Font.AllLowercase
-                    padding: 5
-                    rightPadding: 5
-                    leftPadding: 0
-                    font.pointSize: element.height * 0.05 + element.width * 0.05
-                    placeholderText: "0"
-                  //  placeholderTextColor: "#000000"
-                  //  color: "#000000"
-                    horizontalAlignment: Text.AlignLeft
-                    maximumLength: 100
-                    onTextChanged:
-                    {
-                        var tmp = 0
-                        if (element.text.charAt(element.text.length-1) === "+" || element.text.charAt(element.text.length-1) === "-"
-                            || element.text.charAt(element.text.length-1) === "/" || element.text.charAt(element.text.length-1) === "*")
-                            return
-                        calc.add = element.text.toString()
-                        result_1.text = calc.add;
-                        if (element.text.length === 0)
-                            calc.result = 0.0
-                    }
-                    Rectangle   //make invisible accent in textfield i don`t know how remove him thiis is first methode
-                    //which work
-                    {
-                        height: 5
-                        anchors.right: parent.right
-                        anchors.rightMargin: 0
-                        anchors.left: parent.left
-                        anchors.leftMargin: 0
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 7
-                        border.color: Material.accent
-                        color: Material.accent
-                        Material.background: Material.accent
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 7
+                border.color: Material.accent
+                color: Material.accent
+                Material.background: Material.accent
+            }
+        }
 
-                    }
-
+        Text {
+            id: result_1
+            color: Material.foreground
+            text: qsTr("Text")
+            visible: {
+                if (element.text === "") {
+                    false
+                } else {
+                    true
                 }
-
-                Text {
-                    id: result_1
-                    color: "#000000"
-                    text: qsTr("Text")
-                    visible:
-                    {
-                        if (element.text === "")
-                        {
-                            false
-                        }
-                        else
-                        {
-                            true
-                        }
-                    }
-                    anchors.bottomMargin: 5
-                    anchors.rightMargin: 5
-                    anchors.fill: parent
-                    verticalAlignment: Text.AlignBottom
-                    horizontalAlignment: Text.AlignRight
-                    fontSizeMode: Text.HorizontalFit
-                    font.pixelSize: 12
-                }
-
-
-
-           }
-
+            }
+            anchors.bottomMargin: 5
+            anchors.rightMargin: 5
+            anchors.fill: parent
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignRight
+            fontSizeMode: Text.HorizontalFit
+            font.pixelSize: 12
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
